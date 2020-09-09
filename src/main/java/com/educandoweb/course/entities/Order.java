@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.educandoweb.course.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -21,23 +22,28 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // SERVE PARA INCREMENTE E DIZER QUE É UMA CLASSE PARA BANCO
 	private Long id;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd't'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
 
-	//TRANFORMANDO EM CHAVE ESTRANGEIRA @ManyToOne ISSO É O MUITOS PARA UM
+	private Integer orderStatus;
+
+	// TRANFORMANDO EM CHAVE ESTRANGEIRA @ManyToOne ISSO É O MUITOS PARA UM
 	@ManyToOne
-	@JoinColumn(name = "client_id")//DENTRO DO PARENTISE ESTA O NOME DA CHAVE ESTRAGEIRA QUE ESTA NO BANCO DE DADOS
+	@JoinColumn(name = "client_id") // DENTRO DO PARENTISE ESTA O NOME DA CHAVE ESTRAGEIRA QUE ESTA NO BANCO DE
+									// DADOS
 	private User client;
 
 	public Order() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		//this.orderStatus = orderStatus;
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -55,6 +61,16 @@ public class Order implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {//SE CASO ALGUEM PASSE O VALOR COMO NULLO
+			this.orderStatus = orderStatus.getCode();
+		}
 	}
 
 	public User getClient() {
