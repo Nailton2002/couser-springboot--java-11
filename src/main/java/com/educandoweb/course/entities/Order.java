@@ -30,8 +30,7 @@ public class Order implements Serializable {
 
 	// TRANFORMANDO EM CHAVE ESTRANGEIRA @ManyToOne ISSO É O MUITOS PARA UM
 	@ManyToOne
-	@JoinColumn(name = "client_id") // DENTRO DO PARENTISE ESTA O NOME DA CHAVE ESTRAGEIRA QUE ESTA NO BANCO DE
-									// DADOS
+	@JoinColumn(name = "client_id") // DENTRO DO PARENTISE ESTA O NOME DA CHAVE ESTRAGEIRA QUE ESTA NO BANCO DE DADOS						
 	private User client;
 
 	public Order() {
